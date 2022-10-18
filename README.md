@@ -61,3 +61,6 @@ O segundo projeto com JavaScript será a implementação de um jogo da memória 
 + Ao final do jogo, pergunte com um `prompt()` se o usuário deseja jogar novamente. Se sim, comece o jogo novamente perguntando o número de cartas novamente.
   + O prompt deve receber as strings "sim" ou "não", com todas as letras minúsculas e acentuação correta.
 
+
+[figma]: https://www.figma.com/file/DXO4yONaLli2MEgyIaSMGW/Parrot-Card-Game-Copy
+[CSS necessário]: https://replit.com/@BootcampRespond/FlippedCards#index.html
