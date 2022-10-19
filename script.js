@@ -38,8 +38,8 @@ function virarCarta(){
 
 
 
-const iter = Number(prompt("Digite o número de cartas que deseja adicionar"));
-adicionarCarta(iter);
+//const iter = Number(prompt("Digite o número de cartas que deseja adicionar"));
+adicionarCarta(4);
 
 const cartas = container.children;
 for(let i = 0; i < cartas.length; i++){
