@@ -1,5 +1,10 @@
 const container = document.querySelector('#container');
 function adicionarCarta(iteracoes){
+    /**
+     * Cria e adiciona cartas ao container
+     * @param {number} iteracoes - Quantidade de cartas a serem criadas
+     * @returns {void}
+     */
     for(let i = 0; i < iteracoes; i++){
         const carta = criarCarta();
         container.appendChild(carta);

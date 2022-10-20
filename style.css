@@ -40,34 +40,6 @@ body{
 .face {
     width: 117px;
     height: 146px;
-    background-color: #A7E9AF;
-    border-radius: 10px;
-    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    backface-visibility: hidden;
-    transition: all .5s;
-    transform-style: preserve-3d;
-}
-
-.back-face {
-    transform: rotateY(180deg);
-}
-
-.card:hover .back-face {
-    transform: rotateY(0deg);
-}
-
-.card:hover .front-face {
-    transform: rotateY(-180deg);
-    scale: 1;
-}
-
-.card{
-    width: 117px;
-    height: 146px;
     background: #a7e9af;
     border-radius: 5px;
     border: 1px solid #99CEAB;
@@ -76,7 +48,38 @@ body{
     align-items: center;
     margin: 17px;
     cursor: pointer;
-    transition: all 350ms;
+    transition: all 500ms;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    backface-visibility: hidden;   
+    transform-style: preserve-3d;
+}
+
+
+.back-face {
+    transform: rotateY(180deg);
+}
+
+.back-face-rotate {
+    transform: rotateY(0deg);
+}
+
+.front-face-rotate {
+    transform: rotateY(-180deg);
+    
+}
+
+.card{
+    width: 117px;
+    height: 146px;
+    margin: 17px;
+}
+
+.card:hover .face{
+    scale: 1.1;
 }
 
 .card img{
@@ -84,12 +87,6 @@ body{
     height: 100px;
     object-fit: cover;
 }
-
-.hide{
-    display:none;
-}
-
-
 
 
 @media(max-width: 600px){
