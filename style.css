@@ -26,7 +26,7 @@ body{
 
 #container{
     margin: auto;
-    width: calc(80% - 100px);
+    width: 80%;
     /*Altura máxima de 2 cards*/
     max-height: 400px;
     display: flex;
@@ -35,6 +35,34 @@ body{
     justify-content: center;
     align-items: center;
 
+}
+
+.face {
+    width: 117px;
+    height: 146px;
+    background-color: #A7E9AF;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d;
+}
+
+.back-face {
+    transform: rotateY(180deg);
+}
+
+.card:hover .back-face {
+    transform: rotateY(0deg);
+}
+
+.card:hover .front-face {
+    transform: rotateY(-180deg);
+    scale: 1;
 }
 
 .card{
@@ -46,7 +74,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 17px 0;
+    margin: 17px;
     cursor: pointer;
     transition: all 350ms;
 }
@@ -61,7 +89,11 @@ body{
     display:none;
 }
 
-.card:hover{
-    scale: 1.1;
-}
 
+
+
+@media(max-width: 600px){
+    #container{
+        max-height: 100%;
+    }
+}
