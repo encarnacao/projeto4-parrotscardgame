@@ -1,16 +1,33 @@
 //Variaveis globais
 const container = document.querySelector('#container');
-let numeroDeCartas;
+const relogio = document.querySelector('#relogio');
 const cartas = container.children;
-let versos;
-let cliques = 0;
-let acertos = 0;
+let numeroDeCartas, versos;
+let cliques = 0,acertos = 0,temporizador = 0,minutos=0, segundos=0;
 let primeiraCarta = null, segundaCarta = null;
 
+function contarTempo(){
+    /**
+     * Conta o tempo de jogo
+     * @returns {void}
+     */
+    temporizador++;
+    segundos++;
+    if(temporizador % 60 === 0){
+        minutos++;
+        segundos = 0;
+    }
+    let digitos = -2;
+    relogio.innerHTML = `${("00" + minutos.toFixed(0)).slice(digitos)}:${("00" + segundos.toFixed(0)).slice(digitos)}`;
+}
 
 function reset(){
     cliques = 0;
     acertos = 0;
+    minutos = 0;
+    segundos = 0;
+    temporizador = 0;
+    relogio.innerHTML = `00:00`;
     numeroDeCartas = null;
     limparCartas();
 }
@@ -127,7 +144,7 @@ function virarCarta(){
         cliques++;
         if(condicaoVitoria()){
             setTimeout(() => {
-                alert(`Você ganhou em ${cliques} jogadas`);
+                alert(`Você ganhou em ${cliques} jogadas!\nTempo de jogo: ${relogio.innerHTML} ou ${temporizador} segundos`);
                 reiniciar();
             }, 500);
 
@@ -212,3 +229,4 @@ function embaralharCartas(){
 }
 
 iniciarJogo();
+let tempo = setInterval(contarTempo,1000);
