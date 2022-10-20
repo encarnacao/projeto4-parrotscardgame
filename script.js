@@ -2,6 +2,7 @@ const container = document.querySelector('#container');
 const cartas = container.children;
 const versos = ['bobrossparrot.gif', 'explodyparrot.gif', 'fiestaparrot.gif', 'metalparrot.gif', 'revertitparrot.gif', 'tripletsparrot.gif', 'unicornparrot.gif'];
 let cliques = 0;
+let acertos = 0;
 let primeiraCarta, segundaCarta;
 function rangeArray(arr){
     /**
@@ -14,6 +15,34 @@ function rangeArray(arr){
         array.push(i);
     }
     return array;
+}
+
+function verificarCartas(){
+    /**
+     * Verifica se as cartas são iguais
+     * @returns {bool} Verdadeiro se as cartas forem iguais 
+     */
+    const igual = primeiraCarta.classList[1] === segundaCarta.classList[1]? true : false;
+    return igual;
+}
+function consequencias(check){
+    /** 
+     * Executa as consequências de acerto ou erro
+     * @param {bool} check - Verdadeiro se as cartas forem iguais
+     * @returns {void}
+    */
+    if(check){
+        primeiraCarta.removeEventListener('click', virarCarta);
+        segundaCarta.removeEventListener('click', virarCarta);
+        acertos++;
+    } else {
+        setTimeout(() => {
+            primeiraCarta.children[0].classList.toggle('front-face-rotate');
+            primeiraCarta.children[1].classList.toggle('back-face-rotate');
+            segundaCarta.children[0].classList.toggle('front-face-rotate');
+            segundaCarta.children[1].classList.toggle('back-face-rotate');
+        }, 1000);
+    }
 }
 
 function adicionarCarta(iteracoes){
@@ -41,10 +70,18 @@ function criarCarta(){
     back.setAttribute('class', 'back-face face');
     front.setAttribute('class', 'front-face face');
     front.innerHTML = `<img src="media/front.png" />`;
-    back.innerHTML = ``;
     carta.appendChild(front);
     carta.appendChild(back);
     return carta;
+}
+
+function condicaoVitoria(){
+    /**
+     * Verifica se o jogador ganhou
+     * @returns {bool} Verdadeiro se o jogador ganhou
+     */
+    const vitoria = acertos === cartas.length/2? true : false;
+    return vitoria;
 }
 
 function virarCarta(){
@@ -55,6 +92,17 @@ function virarCarta(){
     const carta = this;
     carta.children[0].classList.toggle('front-face-rotate');
     carta.children[1].classList.toggle('back-face-rotate');
+    if(cliques % 2 === 0){
+        primeiraCarta = carta;
+    }
+    else{
+        segundaCarta = carta;
+        consequencias(verificarCartas());
+    }
+    cliques++;
+    if(condicaoVitoria()){
+        setTimeout(() => {alert(`Você ganhou em ${cliques} jogadas`)}, 500);
+    }
 }
 
 
@@ -69,14 +117,14 @@ while((numeroDeCartas % 2 !== 0 || numeroDeCartas < 4) || numeroDeCartas > 14 ){
 
 for(let i = 0; i < cartas.length; i++){
     cartas[i].addEventListener('click', virarCarta);
-    cartas[i].addEventListener('click', ()=>{
-        cliques++;
-        console.log(cliques);
-    })
 }
 
 
 function embaralharCartas(){
+    /**
+     * Seleciona duas cartas por vez para adicionar um verso aleatório
+     * @returns {void}
+     */
     const indices = rangeArray(cartas);
     const iteracoes = indices.length/2;
     for(let i = 0; i < iteracoes; i++){
@@ -110,5 +158,4 @@ function embaralharCartas(){
         carta2.classList.add(`carta${i}`);
 
     }
-    //return carta2;
 }
