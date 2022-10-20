@@ -1,9 +1,25 @@
+//Variaveis globais
 const container = document.querySelector('#container');
+let numeroDeCartas;
 const cartas = container.children;
-const versos = ['bobrossparrot.gif', 'explodyparrot.gif', 'fiestaparrot.gif', 'metalparrot.gif', 'revertitparrot.gif', 'tripletsparrot.gif', 'unicornparrot.gif'];
+let versos;
 let cliques = 0;
 let acertos = 0;
-let primeiraCarta, segundaCarta;
+let primeiraCarta = null, segundaCarta = null;
+
+
+function reset(){
+    cliques = 0;
+    acertos = 0;
+    numeroDeCartas = null;
+    limparCartas();
+}
+
+function limparCartas(){
+    primeiraCarta = null;
+    segundaCarta = null;
+}
+
 function rangeArray(arr){
     /**
      * Retorna um array com números de 0 a arr.length
@@ -32,15 +48,17 @@ function consequencias(check){
      * @returns {void}
     */
     if(check){
-        primeiraCarta.removeEventListener('click', virarCarta);
-        segundaCarta.removeEventListener('click', virarCarta);
         acertos++;
+        limparCartas();
     } else {
         setTimeout(() => {
             primeiraCarta.children[0].classList.toggle('front-face-rotate');
             primeiraCarta.children[1].classList.toggle('back-face-rotate');
+            primeiraCarta.addEventListener('click', virarCarta);
             segundaCarta.children[0].classList.toggle('front-face-rotate');
             segundaCarta.children[1].classList.toggle('back-face-rotate');
+            segundaCarta.addEventListener('click', virarCarta);
+            limparCartas();
         }, 1000);
     }
 }
@@ -89,36 +107,69 @@ function virarCarta(){
      * Vira a carta
      * @returns {void}
      */
-    const carta = this;
-    carta.children[0].classList.toggle('front-face-rotate');
-    carta.children[1].classList.toggle('back-face-rotate');
-    if(cliques % 2 === 0){
-        primeiraCarta = carta;
-    }
-    else{
-        segundaCarta = carta;
-        consequencias(verificarCartas());
-    }
-    cliques++;
-    if(condicaoVitoria()){
-        setTimeout(() => {alert(`Você ganhou em ${cliques} jogadas`)}, 500);
+    // Impede que mais de duas cartas sejam viradas
+    if(primeiraCarta === null || segundaCarta === null){
+        const carta = this;
+        carta.children[0].classList.toggle('front-face-rotate');
+        carta.children[1].classList.toggle('back-face-rotate');
+        if(cliques % 2 === 0){
+            primeiraCarta = carta;
+            //remove a possibilidade de clicar novamente na carta já virada
+            primeiraCarta.removeEventListener('click', virarCarta);
+        }
+        else{
+            segundaCarta = carta;
+            //Remove a possibilidade de clicar na segunda carta virada
+            segundaCarta.removeEventListener('click', virarCarta);
+            consequencias(verificarCartas());
+        
+        }
+        cliques++;
+        if(condicaoVitoria()){
+            setTimeout(() => {
+                alert(`Você ganhou em ${cliques} jogadas`);
+                reiniciar();
+            }, 500);
+
+        }
     }
 }
 
-
-
-let numeroDeCartas;
-while((numeroDeCartas % 2 !== 0 || numeroDeCartas < 4) || numeroDeCartas > 14 ){
-    numeroDeCartas = Number(prompt('Digite um número par entre 4 e 14'));
+function reiniciar(){
+    /**
+     * Reinicia o jogo
+     * @returns {void}     * 
+     */
+    let reiniciar = prompt('Deseja reiniciar?');
+    while(reiniciar !== 'sim' && reiniciar !== 'não'){
+        reiniciar = prompt('Deseja reiniciar?');
+    }
+    if(reiniciar === 'sim'){
+        reset();
+        iniciarJogo();
+    }
 }
- adicionarCarta(numeroDeCartas);
- embaralharCartas();
 
-
-for(let i = 0; i < cartas.length; i++){
-    cartas[i].addEventListener('click', virarCarta);
+function iniciarJogo(){
+    /**
+     * Inicia o jogo
+     * Atribui todos os eventos
+     * Inicializa o array dos versos
+     * @returns {void}
+     */
+    container.innerHTML = '';
+    while((numeroDeCartas % 2 !== 0 || numeroDeCartas < 4) || numeroDeCartas > 14 ){
+        numeroDeCartas = Number(prompt('Digite um número par entre 4 e 14'));
+    }
+     adicionarCarta(numeroDeCartas);
+     versos = ['bobrossparrot.gif', 'explodyparrot.gif', 'fiestaparrot.gif', 'metalparrot.gif', 'revertitparrot.gif', 'tripletsparrot.gif', 'unicornparrot.gif'];
+     embaralharCartas();
+    
+    
+    for(let i = 0; i < cartas.length; i++){
+        cartas[i].addEventListener('click', virarCarta);
+    }
 }
-
 
 function embaralharCartas(){
     /**
@@ -159,3 +210,5 @@ function embaralharCartas(){
 
     }
 }
+
+iniciarJogo();
