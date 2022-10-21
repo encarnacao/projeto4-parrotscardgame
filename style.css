@@ -61,9 +61,6 @@ body{
     cursor: pointer;
     transition: all 500ms;
     box-shadow: 1px 1px 1px rgba(0,0,0,.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     backface-visibility: hidden;   
     transform-style: preserve-3d;
