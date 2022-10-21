@@ -5,6 +5,7 @@ const cartas = container.children;
 let numeroDeCartas, versos;
 let cliques = 0,acertos = 0,temporizador = 0,minutos=0, segundos=0;
 let primeiraCarta = null, segundaCarta = null;
+let tempo;
 
 function contarTempo(){
     /**
@@ -143,6 +144,8 @@ function virarCarta(){
         }
         cliques++;
         if(condicaoVitoria()){
+            //Para o temporizador
+            clearInterval(tempo);
             setTimeout(() => {
                 alert(`Você ganhou em ${cliques} jogadas!\nTempo de jogo: ${relogio.innerHTML} ou ${temporizador} segundos`);
                 reiniciar();
@@ -174,6 +177,8 @@ function iniciarJogo(){
      * Inicializa o array dos versos
      * @returns {void}
      */
+    // Inicia o temporizador
+    tempo = setInterval(contarTempo,1000);
     container.innerHTML = '';
     while((numeroDeCartas % 2 !== 0 || numeroDeCartas < 4) || numeroDeCartas > 14 ){
         numeroDeCartas = Number(prompt('Digite um número par entre 4 e 14'));
@@ -229,4 +234,3 @@ function embaralharCartas(){
 }
 
 iniciarJogo();
-let tempo = setInterval(contarTempo,1000);
