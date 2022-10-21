@@ -232,5 +232,5 @@ function embaralharCartas(){
 
     }
 }
-
-iniciarJogo();
+//Espera a pagina carregar pra iniciar jogo.
+setTimeout(iniciarJogo,200);
